@@ -14,28 +14,59 @@ public class MapServlet extends HttpServlet {
     
     private Map<String, String> paises;
     
-    public MapServlet(){
-        paises.put("Brasil", "Verde");
-        paises.put("Canadá", "Vermelho");
-        paises.put("Uruguai", "Azul");
-        paises.put("Japão", "Branco");
-        paises.put("Itália", "Roxo");
+    public Map MapServlet(){
+        Map<String,String> p = new HashMap<>();
+        p.put("Brasil", "Verde");
+        p.put("Canadá", "Vermelho");
+        p.put("Uruguai", "Azul");
+        p.put("Japão", "Vermelho");
+        p.put("Itália", "Verde");
+        return p;
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        Map<String,ArrayList<String>> cores = new HashMap<>();
+        String comando = request.getParameter("comando");
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            paises = MapServlet();
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Mapa Países</title>");            
+            out.println("<title>Países</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Mapa Países</h1>");
+            out.println("<h1>Países</h1>");
             out.println("<dl>");
             
+            for(Map.Entry<String,String> pais : paises.entrySet()){
+                out.println("<dt>" + pais.getKey() +"</dt" 
+                       + "<dd>  " + pais.getValue() + "</dd>");                
+            }
+            
+            
+            if("cor".equals(comando)){
+                for(Map.Entry<String, String> pais : paises.entrySet()){
+                    if(!cores.containsKey(pais.getValue())){
+                        ArrayList<String> corPais = new ArrayList();
+                        corPais.add(pais.getKey());
+                        cores.put(pais.getValue(), corPais);
+                    }else{
+                        cores.get(pais.getValue()).add(pais.getKey());
+                    }
+                }
+                for(Map.Entry<String, ArrayList<String>> cor : cores.entrySet()){
+                    out.println("<dt>" + cor.getKey() + "</dt>");
+                    for(String pais : cor.getValue()){
+                        out.println("<dd>" + pais + "</dd>");
+                    }
+                }
+            }
+            
+            
             out.println("</dl>");
+            out.println("<p> <a href='?comando=cor'> Juntar cores </a> </p>");
             out.println("</body>");
             out.println("</html>");
         }

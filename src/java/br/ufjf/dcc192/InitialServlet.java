@@ -19,12 +19,12 @@ public class InitialServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet InicialServlet</title>");            
+            out.println("<title>Países</title>");            
             out.println("</head>");
             out.println("<body>");
             out.println("<h1> Pagina Inicial </h1>");
             out.println("<ul>");
-            out.println("<li><a href='map.html'> Mapa Países </a> </li>");
+            out.println("<li><a href='map.html'> Países </a> </li>");
             out.println("</ul>");
             out.println("</body>");
             out.println("</html>");
